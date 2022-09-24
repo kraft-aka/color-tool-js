@@ -1,4 +1,6 @@
 const hexInput = document.getElementById("hex-input");
+const sliderText = document.getElementById("slider-text");
+const slider = document.getElementById("slider");
 let inputColor = document.getElementById("input-color");
 
 // assigns background color taken from input
@@ -40,29 +42,31 @@ const hexToRgb = (hex) => {
   return { r, g, b };
 };
 
-
 // converts RGB to HEX
 
-const rgbToHex = (r,g,b) => {
-  
-
-  let  h = r.toString(16);
+const rgbToHex = (r, g, b) => {
+  let h = r.toString(16);
   let e = g.toString(16);
   let x = b.toString(16);
 
   if (h.length === 1) {
-    h[0] + h[0]
+    h[0] + h[0];
   }
 
   if (e.length === 1) {
-    e[0] + e[0]
+    e[0] + e[0];
   }
 
   if (x.length === 1) {
-    x[0] + x[0]
+    x[0] + x[0];
   }
 
-  return `#${h}${e}${x}`
-}
+  return `#${h}${e}${x}`;
+};
 
-console.log(rgbToHex(255, 0, 238));
+// console.log(rgbToHex(255, 0, 238));
+
+// eventlistener for slider input
+slider.addEventListener("input", (e) => {
+  sliderText.innerHTML = `${e.target.value}%`;
+});
