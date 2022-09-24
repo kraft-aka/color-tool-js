@@ -43,8 +43,8 @@ const hexToRgb = (hex) => {
 
 // converts RGB to HEX
 
-const rgbToHex = (rgb) => {
-  let { r, g, b } = rgb;
+const rgbToHex = (r,g,b) => {
+  
 
   let  h = r.toString(16);
   let e = g.toString(16);
@@ -65,4 +65,4 @@ const rgbToHex = (rgb) => {
   return `#${h}${e}${x}`
 }
 
-console.log(rgbToHex({ r: 105, g: 25, b: 238}));
+console.log(rgbToHex(255, 0, 238));
