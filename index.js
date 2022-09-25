@@ -45,21 +45,9 @@ const hexToRgb = (hex) => {
 // converts RGB to HEX
 
 const rgbToHex = (r, g, b) => {
-  let h = r.toString(16);
-  let e = g.toString(16);
-  let x = b.toString(16);
-
-  if (h.length === 1) {
-    h[0] + h[0];
-  }
-
-  if (e.length === 1) {
-    e[0] + e[0];
-  }
-
-  if (x.length === 1) {
-    x[0] + x[0];
-  }
+  const h = ("0" + r.toString(16)).slice(-2);
+  const e = ("0" + g.toString(16)).slice(-2);
+  const x = ("0" + b.toString(16)).slice(-2);
 
   return `#${h}${e}${x}`;
 };
@@ -70,3 +58,30 @@ const rgbToHex = (r, g, b) => {
 slider.addEventListener("input", (e) => {
   sliderText.innerHTML = `${e.target.value}%`;
 });
+
+// checks the num value if it in range from 0 to 255
+const increaseWithin0to255 = (hex, amount) => {
+  const newHex = hex + amount;
+
+  if (newHex < 0) return 0;
+  if (newHex > 255) return 255;
+
+  return newHex;
+};
+
+
+// alter color with percentage
+const alterColor = (hex, percentage) => {
+  const { r, g, b } = hexToRgb(hex);
+
+  const amount = Math.floor((percentage / 100) * 255);
+
+  const newR = increaseWithin0to255(r, amount);
+  const newG = increaseWithin0to255(g, amount);
+  const newB = increaseWithin0to255(b, amount);
+  return rgbToHex(newR, newG, newB);
+};
+
+//console.log(rgbToHex(255, 255, 255));
+console.log(alterColor("584", 25));
+
