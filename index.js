@@ -1,9 +1,12 @@
 const hexInput = document.getElementById("hex-input");
 const sliderText = document.getElementById("slider-text");
 const slider = document.getElementById("slider");
-let inputColor = document.getElementById("input-color");
+const inputColor = document.getElementById("input-color");
 const alteredColor = document.getElementById("altered-color");
-const alteredColorText = document.getElementById('altered-color-text');
+const alteredColorText = document.getElementById("altered-color-text");
+const toggleBtn = document.getElementById("toggleBtn");
+const lightenText = document.getElementById("lighten-text");
+const darkenText = document.getElementById("darken-text");
 
 // assigns background color taken from input
 hexInput.addEventListener("keyup", () => {
@@ -11,12 +14,13 @@ hexInput.addEventListener("keyup", () => {
   if (!isValid(hexValue)) return;
 
   inputColor.style.backgroundColor = `#${hexValue}`;
+  reset();
 });
 
 // validates input value
 const isValid = (hex) => {
   if (!hex) return false;
-  
+
   const strippedStr = hex.replace("#", "");
   return strippedStr.length === 3 || strippedStr.length === 6;
 };
@@ -53,7 +57,6 @@ const rgbToHex = (r, g, b) => {
   return `#${h}${e}${x}`;
 };
 
-
 // checks the num value if it in range from 0 to 255
 const increaseWithin0to255 = (hex, amount) => {
   const newHex = hex + amount;
@@ -76,15 +79,37 @@ const alterColor = (hex, percentage) => {
   return rgbToHex(newR, newG, newB);
 };
 
-//console.log(rgbToHex(255, 255, 255));
-console.log(alterColor("584", 25));
-
 // eventlistener for slider input
 slider.addEventListener("input", () => {
   if (!isValid(hexInput.value)) return;
   sliderText.innerHTML = `${slider.value}%`;
-  const newColor = alterColor(hexInput.value, slider.value);
-  alteredColorText.innerText = `Altered Color: ${newColor}`
+  // checks if the button is toggled
+  const valueAddition = toggleBtn.classList.contains("toggled")
+    ? -slider.value
+    : slider.value;
+  const newColor = alterColor(hexInput.value, valueAddition);
+  alteredColorText.innerText = `Altered Color: ${newColor}`;
   alteredColor.style.backgroundColor = newColor;
 });
 
+// toggles between two states
+toggleBtn.addEventListener("click", () => {
+  if (toggleBtn.classList.contains("toggled")) {
+    toggleBtn.classList.remove("toggled");
+    lightenText.classList.remove("unselected");
+    darkenText.classList.add("unselected");
+  } else {
+    toggleBtn.classList.add("toggled");
+    lightenText.classList.add("unselected");
+    darkenText.classList.remove("unselected");
+  }
+  reset();
+});
+
+// resets the values when the button toggled
+const reset = () => {
+  slider.value = 0;
+  sliderText.textContent = "0%";
+  alteredColor.style.backgroundColor = `#${hexInput.value}`;
+  alteredColorText.textContent = `Altered Color: ${hexInput.value}`;
+};
